@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./style/style.css" />
+    <link rel="stylesheet" href="./style/iconfonts/iconfont.css">
+    <script src="./js/jquery.min.js"></script>
+</head>
+
+<body>
+    <div id="todos-wrap" class="todos-wrap">
+
+        <div class="todo-input">
+            <input type="text" placeholder="new todos" id="todo-input" autofocus />
+        </div>
+
+        <ul id="todos" class="todos"></ul>
+
+        <div id="todos-footer">
+            <a href="javascript: void(0);" class="todo-items">
+                <span class="num"></span>
+                <span>items</span>
+            </a>
+            <a href="javascript: void(0);" class="complete-all">completeAll</a>
+            <a href="javascript: void(0);" class="clear-complete">clearComplete</a>
+        </div>
+    </div>
+
+
+    <script>
+        let todos = [];
+        let todosDom = $('#todos');
+
+        // 初始化渲染 ```````````````````````````````````````````````
+        let local = localStorage.getItem('CHEN-JQUERY-TODOS');
+        if (local != '' && /^\[[\s\S]*?\]$/.test(local)) {
+            todos = JSON.parse(local);
+            for (let i = 0, len = todos.length; i < len; i++) {
+                renderTodos(todos[i]);
+            }
+        }
+        changeItems();
+
+        // 按下回车添加数据 `````````````````````````````````````````
+        $('#todo-input').keydown(function (e) {
+
+            const value = this.value;
+
+            if (e.keyCode === 13) {
+
+                if(value.length === 0 || /^[ ]+$/.test(value)){
+                    alert('请输入不是空格的内容');
+                    return false;
+                }
+
+                const len = todos.length;
+                let id = len > 0 ? todos[len - 1].id + 1 : 0;
+                const todo = {
+                    id,
+                    content: value,
+                    select: false,
+                    edit: false
+                }
+                todos.push(todo);
+                this.value = '';
+
+                // 存入本地 ```````````````````````````````````````````````
+                localStorageTodos(todos);
+
+                // 底部 计数 ``````````````````````````````````````````````
+                changeItems();
+
+                // 渲染 todos 列表 ````````````````````````````````````````
+                renderTodos(todo);
+            }
+        });
+
+        function renderTodos(todo) {
+            let $liDom = $('<li></li>');
+            $liDom[0].index = todo.id;
+            let $contentDom = $('<div class="'+ (todo.select ? 'todo-content complete' : 'todo-content') +'"></div>');
+            let $textDom = $('<p>' + todo.content + '</p>');
+            let $editDom = $('<input type="text" class="edit" />');
+            $contentDom.append($textDom);
+            $contentDom.append($editDom);
+            $liDom.append($contentDom);
+
+            let $btnWrapDom = $('<div class="btn-wrap"></div>');
+            let $changeDom = $('<a class="change-todo" href="javascript: void(0);"><i class="icon iconfont icon-edit"></i></a>');
+            let $deleteDom = $('<a class="edit-todo" href="javascript: void(0);"><i class="icon iconfont icon-delete"></i></a>');
+            $btnWrapDom.append($changeDom);
+            $btnWrapDom.append($deleteDom);
+            $liDom.append($btnWrapDom);
+            $($liDom).css('display', 'none');
+
+            $(todosDom).append($liDom);
+            $($liDom).fadeIn();
+
+            // 双击完成单项  ````````````````````````````````````````````
+            $contentDom.dblclick(function () {
+                eachTodos.call(this, function (obj) {
+                    obj.todo.select = !obj.todo.select;
+                    this.className = obj.todo.select ? 'todo-content complete' : 'todo-content';
+
+                    // 修改本地存储里对应的 ```````````````````````````````
+                    localStorageTodos();
+
+                }, $(this).parent()[0]);
+            });
+
+            // 删除 ````````````````````````````````````````````````````
+            $deleteDom.click(function () {
+                eachTodos.call(this, function (obj) {
+                    $(obj.element).fadeOut(500, function () {
+                        this.remove();
+                        todos.splice(obj.currentIndex, 1);
+
+                        // 底部 计数 ````````````````````````````````````````
+                        changeItems();
+
+                        // 修改本地存储里对应的 ```````````````````````````````
+                        localStorageTodos();
+                    });
+                }, $(this).parent().parent()[0]);                
+            });
+
+            // 修改 `````````````````````````````````````````````````````
+            $changeDom.click(function () {
+
+                $textDom.fadeOut(500, function () {
+                    let textThis = this;
+                    // 调用封装 循环 `````````````````````````````````````
+                    eachTodos.call($editDom, function (obj) {
+                        let editThis = this;
+                        $(this).attr('value', obj.todo.content);
+                        $(this).fadeIn();
+                        $(this).focus();
+
+                        // 修改文本框离开焦点 `````````````````````````````
+                        $(this).blur(function () {
+                            let editText = this.value;
+                            todos[obj.currentIndex].content = editText;
+                            $(editThis).fadeOut(500, function () {
+                                $(textThis).fadeIn();
+                                $(textThis).html(editText);
+                            });
+                            // 存入本地 `````````````````````````````````
+                            localStorageTodos();
+                        });
+
+
+                    }, $editDom.parent().parent()[0]);
+                });
+
+            });
+
+            /**
+             * 遍历方法
+             * @param {Function} callback 找到当前直接 跳出循环然后回调
+             * @param {Element} element 
+             */
+            function eachTodos(callback, element) {
+                const id = element['index'];
+                for (let i = 0, len = todos.length; i < len; i++) {
+                    if (todos[i].id == id) {
+                        callback.call(this, {
+                            todo: todos[i],
+                            currentIndex: i,
+                            element
+                        });
+                        break;
+                    }
+                }
+            }
+
+        };
+
+        /**
+         * 改变 显示在页面上的 todos 个数
+         */
+        function changeItems() {
+            let itemDom = document.querySelector('#todos-footer > .todo-items > .num');
+            $(itemDom).text(todos.length)
+        }
+        /**
+         * 存入本地
+         */
+        function localStorageTodos() {
+            localStorage.setItem('CHEN-JQUERY-TODOS', JSON.stringify(todos));            
+        }
+
+        // 全选 `````````````````````````````````````````````````````
+        let $todosFooter = $('#todos-footer');
+        $($todosFooter).children('.complete-all').eq(0).click(function () {
+            $(todosDom).children().each(function (index, item) {
+
+                todos[index].select = true;
+                $(item).children('.todo-content').eq(0).attr('class', 'todo-content complete');
+                
+                // 修改本地存储里对应的 ```````````````````````````````
+                localStorageTodos();
+            });
+
+        });
+
+        // 删除完成项 ``````````````````````````````````````````````
+        $($todosFooter).children('.clear-complete').eq(0).click(function () {
+            $(todosDom).children().each(function (index, item) {
+
+                let hasClass = $(item).children('.todo-content').eq(0).hasClass('complete');
+                if (hasClass) {
+                    // 移除数据里面的记录 ````````````````````````````````
+                    $(item).fadeOut(500, function () {
+                        this.remove();
+                        todos.splice(index, 1);
+                    });
+
+                    // 修改本地存储里对应的 ```````````````````````````````
+                    localStorageTodos();
+
+                    // 底部 计数 ````````````````````````````````````````
+                    changeItems(function (num) {
+                        $(this).html(num - 1);
+                    });
+                }
+
+            });
+
+        });
+
+
+
+    </script>
+
+</body>
+
+</html>

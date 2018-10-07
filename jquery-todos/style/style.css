@@ -1,0 +1,91 @@
+html,body,div,p,ul,li,h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+}
+body {
+    background-color: #eee;
+}
+ul li {
+    list-style: none;
+}
+
+
+.todos-wrap {
+    width: 500px;
+    padding: 20px;
+    margin: 100px auto;
+    background-color: #fff;
+}
+
+
+.todos-wrap .todo-input input{
+    width: 480px;
+    padding: 10px;
+    outline: none;
+    margin-bottom: 15px;
+}
+
+.todos-wrap .todos li {
+    border: 1px solid #eee;
+    margin: 6px auto;
+    overflow: hidden;
+    line-height: 42px;
+}
+.todos-wrap .todos li .todo-content,
+.todos-wrap .todos li .btn-wrap {
+    float: left;
+}
+.todos-wrap .todos li .todo-content {
+    width: 398px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    color: #333;
+}
+.todos-wrap .todos li div.todo-content.complete {
+    text-decoration: line-through;
+    color: #aaa;
+}
+.todos-wrap .todos li div.todo-content .edit {
+    width: 90%;
+    padding: 8px;
+    /* border: none; */
+    outline: none;
+    display: none;
+}
+
+.todos-wrap .todos li .btn-wrap {
+    width: 100px;
+}
+.todos-wrap .todos li .btn-wrap a {
+    width: 50px;
+    line-height: 42px;
+    color: #fff;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 12px;
+}
+.todos-wrap .todos li .btn-wrap a.change-todo {
+    background-color: #FF0033;
+}
+.todos-wrap .todos li .btn-wrap a.edit-todo {
+    background-color: #ff9800;
+}
+
+
+
+#todos-footer{
+    padding-top: 10px;
+}
+#todos-footer a {
+    text-decoration: none;
+    padding: 2px 8px;
+    background-color: #eee;
+    color: #aaa;
+    font-size: 14px;
+}
+#todos-footer a.clear-complete,
+#todos-footer a.complete-all {
+    float: right;
+    margin-left: 5px;
+}
