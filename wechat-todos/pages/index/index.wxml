@@ -1,0 +1,73 @@
+<view class="todos-wrap">
+
+    <view class="input-wrap">
+        <input placeholder="请输入任务" bindinput="handleInputChange"/>
+        <button bindtap="handleAddTodo"> 添加 </button>
+    </view>
+
+    <view class="list-wrap">
+
+        <view 
+            class="item"
+            wx:for="{{ todoData }}"
+            wx:for-item="todo"
+            wx:key="{{todo.id}}">
+            <view class="item-left">
+                <checkbox-group bindchange="handleSeleteTodo" data-index="{{todo.id}}">
+                    <checkbox checked="{{ todo.select }}" />
+                </checkbox-group>
+                <text 
+                    wx:if="{{!todo.change}}"
+                    class="item-content {{ todo.select&&'select' }}"
+                    bindlongpress="handleShowTodoChange"
+                    data-index="{{todo.id}}">{{ todosFilter.strSlice(todo.text) }}</text>
+                <input 
+                    data-index="{{todo.id}}"
+                    bindblur="handleBlurChangeTodo"
+                    value="{{todo.text}}"
+                    focus="{{todo.change}}"
+                    wx:else />
+            </view>    
+            <text 
+                class="item-remove"
+                bindtap="handleRemoveTodo"
+                data-index="{{todo.id}}"> X </text>
+        </view>
+
+        <view class="item null"  wx:if="{{ todoData.length == 0 }}">
+            <text> 暂无代办 </text>
+        </view>
+
+        <view class="todo-footer" wx:if="{{ todoData.length != 0 }}">
+
+            <view class="select-all">
+                <checkbox-group bindchange="handleSeleteAllTodo">
+                    <checkbox checked="{{ selectAll }}" />
+                </checkbox-group>
+                <text> All </text>
+            </view>
+            
+            <view class="info">                
+                <button 
+                    bindtap="handleClearComplete"
+                    wx:if="{{ !(unCleaercomplete >= todoData.length) }}">清除完成</button>
+                <text
+                    wx:if="{{ unCleaercomplete > 0 }}"> 代办项: {{ unCleaercomplete }} </text>
+            </view>
+        </view>
+    
+    </view>
+
+</view>
+
+<!-- 页面脚本 可以在视图直接使用  -->
+<wxs module="todosFilter">
+
+    module.exports = {
+        strSlice: function (input , len){
+            var len = len || 20;
+            return input.length > len ? input.slice(0, len)+'...' : input;
+        } 
+    };
+
+</wxs>

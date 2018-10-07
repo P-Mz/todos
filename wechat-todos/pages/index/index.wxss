@@ -1,0 +1,85 @@
+button::after{
+    border-radius: 0;
+}
+button{
+    border-radius: 0;
+    font-size: 35rpx;
+    border: 1rpx solid #ccc;
+}
+input{
+    border: 1rpx solid #ccc;
+}
+
+/* 使用 flex 布局  */
+.todos-wrap{
+    width: 100%;
+    padding: 40rpx;  
+    box-sizing: border-box;  
+}
+
+.todos-wrap .input-wrap{
+    display: flex;    
+    padding-top: 50rpx;
+}
+.todos-wrap .input-wrap input,
+.todos-wrap .input-wrap button{
+    height: 100rpx;
+}
+.todos-wrap .input-wrap input{
+    width: 70%;
+    box-sizing: border-box;
+    padding-left: 30rpx;
+}
+.todos-wrap .input-wrap button{
+    width: 30%;    
+    line-height: 100rpx;
+}
+.todos-wrap .list-wrap{
+    padding: 50rpx 0;
+}
+
+
+.todos-wrap .list-wrap .item{
+    display: flex;
+    height: 100rpx;
+    padding: 20rpx;
+    box-sizing: border-box;
+    align-items: center; 
+    justify-content: space-between;
+    border: 1rpx solid #ccc;
+    margin: 20rpx 0;
+}
+.todos-wrap .list-wrap .item.null{
+    justify-content: center;
+    color: #aaa;
+}
+.todos-wrap .list-wrap .item .item-left{    
+    display: flex;
+}
+.todos-wrap .list-wrap .item .item-left .select{
+    font-style: italic;
+    font-style: oblique;
+    text-decoration: line-through;
+}
+.todos-wrap .list-wrap .item .item-remove{
+    width: 50rpx;
+    height: 50rpx;
+    line-height: 50rpx;
+    text-align: center;
+    background-color: #ff0800;
+    border-radius: 50%;
+    color: #fff;
+}
+.todos-wrap .list-wrap .todo-footer,
+.todos-wrap .list-wrap .todo-footer .select-all,
+.todos-wrap .list-wrap .todo-footer .info{
+    display: flex;
+    align-items: center;
+}
+.todos-wrap .list-wrap .todo-footer{
+    justify-content: space-between;
+    padding: 20rpx;
+}
+.todos-wrap .list-wrap .todo-footer .info button{
+    margin: 0 20rpx;
+}

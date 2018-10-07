@@ -1,0 +1,30 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/logs/logs"
+    ],
+    "window": {
+        "navigationBarBackgroundColor": "#2b3b49",
+        "navigationBarTextStyle": "wheit",
+        "navigationBarTitleText": "小程序",
+        "backgroundColor": "#eeeeee",
+        "backgroundTextStyle": "light",
+        "enablePullDownRefresh": false
+    },    
+    "tabBar": {
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "TODOS",
+                "iconPath": "assets/todo.png",
+                "selectedIconPath": "assets/todo-action.png"
+            },
+            {
+                "pagePath": "pages/logs/logs",
+                "text": "LOGS",
+                "iconPath": "assets/log.png",
+                "selectedIconPath": "assets/log-action.png"
+            }
+        ]
+    }
+}

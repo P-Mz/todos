@@ -1,0 +1,21 @@
+.log{
+    width: 100%;
+    padding: 20rpx;
+    box-sizing: border-box;
+}
+.log .log-list{
+    border: 1rpx solid #111;    
+    padding: 20rpx;
+    box-sizing: border-box;
+    margin-bottom: 20rpx;
+}
+.log .log-list .header{
+    padding-bottom: 10rpx;
+    border-bottom: 1rpx solid #ccc;
+    display: flex;
+    justify-content: space-between;
+}
+.log .log-list .content{
+    box-sizing: border-box;
+    padding: 20rpx;
+}

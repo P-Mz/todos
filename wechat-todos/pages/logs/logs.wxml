@@ -1,0 +1,12 @@
+<view class="log">
+    
+    <view class="log-list" wx:for="{{logs}}" wx:key="index">
+        <view class="header">
+            <text class="title">{{ item.logType }}</text>
+            <text class="time">{{ item.time }}</text>
+        </view>
+        <view class="content">
+            <text>{{ item.content }}</text>
+        </view>
+    </view>
+</view>
