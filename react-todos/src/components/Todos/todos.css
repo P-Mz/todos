@@ -1,0 +1,99 @@
+div,ul,li,p,h1{ padding: 0; margin: 0; }
+ul li{ list-style: none; }
+a { color: #aaa; }
+h1 {
+    text-align: center;
+    font-size: 30px;
+    padding-bottom: 30px;
+}
+.todos {
+    font-size: 14px;
+    font-family: 'sans-serif';
+    width: 500px;
+    margin: 100px auto;
+    padding: 40px 20px 20px;
+    box-sizing: border-box;
+    background-color: #fff;    
+}
+.todos-footer {
+    color: #fff;
+    font-size: 14px;
+    overflow: hidden;
+}
+.todos-footer .count {
+    float: left;
+}
+.todos-footer .count span {
+    padding: 2px 5px;
+    background-color: #aaa;
+}
+.todos-footer .btn {
+    text-align: right;
+}
+.todos-footer .btn a {
+    margin-left: 10px;
+}
+
+
+/* 输入 */
+.todos .todo-input {
+    display: flex;
+    justify-content: center;
+}
+.todos .todo-input input,
+.todos .todo-input button{
+    outline: none;
+}
+.todos .todo-input input{
+    width: 100%;
+    padding: 12px 8px;
+}
+.todos .todo-input button{
+    width: 60px;
+    border: 1px solid #aaa;
+}
+
+/* todo 项 */
+.todos .todo-list{
+    padding: 20px 0;
+}
+.todos .todo-list .todo-item{
+    border: 1px solid #eee;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+}
+.todos .todo-list .todo-item p.content,
+.todos .todo-list .todo-item .edit-todo{
+    padding: 14px 20px;
+    width: 310px;
+}
+.todos .todo-list .todo-item p.content.selectd{
+    text-decoration: line-through;
+    color: #aaa;
+    font-style: italic;
+}
+.todos .todo-list .todo-item .edit-todo input{
+    width: 100%;
+    border: none;
+    outline: none;
+}
+.todos .todo-list .todo-item .btn-wrap{
+    font-size: 12px;    
+    width: 108px;
+    height: 49px;
+}
+.todos .todo-list .todo-item .delete ,
+.todos .todo-list .todo-item .edit{
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    background-color:#f56c6c;
+    text-align: center;
+    line-height: 49px;
+    cursor: pointer;
+    color: #fff;
+}
+.todos .todo-list .todo-item .edit {
+    background-color: #e6a23c;
+}
